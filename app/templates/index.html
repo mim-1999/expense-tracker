@@ -1,13 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Expense Tracker</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <h1>Welcome to Expense Tracker</h1>
+{% block content %}
 
-    <p>This is my first Flask application.</p>
+<h1>Expense Tracker</h1>
 
-</body>
-</html>
+<a href="{{ url_for('main.add_expense') }}" class="btn btn-primary mb-3">
+    Add Expense
+</a>
+
+<table class="table table-striped">
+
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for expense in expenses %}
+
+        <tr>
+            <td>{{ expense.title }}</td>
+            <td>{{ expense.amount }}</td>
+            <td>{{ expense.category }}</td>
+            <td>
+                <a href="{{ url_for('main.edit_expense', id=expense.id) }}" class="btn btn-warning btn-sm"> Edit </a>
+                <a href="{{ url_for('main.remove_expense', id=expense.id) }}" class="btn btn-danger btn-sm"> Delete </a>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}
