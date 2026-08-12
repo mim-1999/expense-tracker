@@ -1,4 +1,5 @@
 from app.extensions import db
+from datetime import datetime
 
 class Expense(db.Model):
     __tablename__ = "expenses"
@@ -10,3 +11,5 @@ class Expense(db.Model):
     amount = db.Column(db.Float, nullable=False)
 
     category = db.Column(db.String(50), nullable=False)
+
+    date = db.Column(db.DateTime, default=datetime.utcnow)
