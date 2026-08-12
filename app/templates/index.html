@@ -8,6 +8,10 @@
     Add Expense
 </a>
 
+<h3>Total: ${{ "%.2f"|format(expenses|sum(attribute="amount")) }}</h3>
+
+<p>Total expenses: {{ expenses|length }}</p>
+
 <table class="table table-striped">
 
     <thead>
@@ -15,6 +19,7 @@
             <th>Title</th>
             <th>Amount</th>
             <th>Category</th>
+            <th>Date</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -25,8 +30,9 @@
 
         <tr>
             <td>{{ expense.title }}</td>
-            <td>{{ expense.amount }}</td>
+            <td>${{ "%.2f"|format(expense.amount) }}</td>
             <td>{{ expense.category }}</td>
+            <td>{{ expense.date.strftime("%Y-%m-%d") }}</td>
             <td>
                 <a href="{{ url_for('main.edit_expense', id=expense.id) }}" class="btn btn-warning btn-sm"> Edit </a>
                 <a href="{{ url_for('main.remove_expense', id=expense.id) }}" class="btn btn-danger btn-sm"> Delete </a>

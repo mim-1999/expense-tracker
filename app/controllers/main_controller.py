@@ -2,11 +2,10 @@ from app.services.expense_service import (
     get_all_expenses,
     create_expense,
     delete_expense,
-    update_expense
+    update_expense,
+    get_expense
 )
-from flask import Blueprint, render_template, request, redirect, url_for
-from app.models.expense import Expense
-from app.extensions import db
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 
 main_bp = Blueprint("main", __name__)
 
@@ -27,27 +26,33 @@ def add_expense():
     if request.method == "POST":
 
         create_expense(
-    title=request.form["title"],
-    amount=float(request.form["amount"]),
-    category=request.form["category"]
-)
+            title=request.form["title"],
+            amount=float(request.form["amount"]),
+            category=request.form["category"]
+        )
+
+        flash("Expense added successfully!")
 
         return redirect(url_for("main.home"))
 
     return render_template("add_expense.html")
 
+
 @main_bp.route("/delete-expense/<int:id>")
 def remove_expense(id):
-    expense = Expense.query.get_or_404(id)
+    expense = get_expense(id)
 
     delete_expense(expense)
 
+    flash("Expense deleted successfully!")
+
     return redirect(url_for("main.home"))
+
 
 @main_bp.route("/edit-expense/<int:id>", methods=["GET", "POST"])
 def edit_expense(id):
 
-    expense = Expense.query.get_or_404(id)
+    expense = get_expense(id)
 
     if request.method == "POST":
 
@@ -57,6 +62,8 @@ def edit_expense(id):
             amount=float(request.form["amount"]),
             category=request.form["category"]
         )
+
+        flash("Expense updated successfully!")
 
         return redirect(url_for("main.home"))
 

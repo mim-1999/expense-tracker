@@ -6,6 +6,8 @@ from app.models.expense import Expense
 def create_app():
     app = Flask(__name__)
 
+    app.config["SECRET_KEY"] = "dev-secret-key"
+
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///expense_tracker.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
