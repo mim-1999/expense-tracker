@@ -2,6 +2,7 @@ from app.extensions import db
 from app.models.expense import Expense
 
 
+
 def get_all_expenses():
     return Expense.query.all()
 
@@ -20,6 +21,9 @@ def create_expense(title, amount, category):
 def delete_expense(expense):
     db.session.delete(expense)
     db.session.commit()
+
+def get_expense(id):
+    return Expense.query.get_or_404(id)
 
 def update_expense(expense, title, amount, category):
     expense.title = title
