@@ -24,10 +24,20 @@ def home():
 def add_expense():
 
     if request.method == "POST":
+        try:
+            amount = float(request.form["amount"])
+        except ValueError:
+            flash("Please enter a valid amount.")
+            return redirect(url_for("main.add_expense"))
 
+        if amount < 0:
+            flash("Amount cannot be negative.")
+            return redirect(url_for("main.add_expense"))
+        
+        
         create_expense(
             title=request.form["title"],
-            amount=float(request.form["amount"]),
+            amount=amount,
             category=request.form["category"]
         )
 
@@ -55,6 +65,10 @@ def edit_expense(id):
     expense = get_expense(id)
 
     if request.method == "POST":
+        
+        if float(request.form["amount"]) < 0:
+                flash("Amount cannot be negative.")
+                return redirect(url_for("main.edit_expense", id=id))
 
         update_expense(
             expense,
