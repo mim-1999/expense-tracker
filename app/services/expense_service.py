@@ -1,8 +1,6 @@
 from app.extensions import db
 from app.models.expense import Expense
 
-
-
 def get_all_expenses():
     return Expense.query.all()
 
@@ -31,3 +29,6 @@ def update_expense(expense, title, amount, category):
     expense.category = category
 
     db.session.commit()
+
+def get_expenses_by_category(category):
+    return Expense.query.filter_by(category=category).all()

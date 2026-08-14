@@ -3,7 +3,8 @@ from app.services.expense_service import (
     create_expense,
     delete_expense,
     update_expense,
-    get_expense
+    get_expense,
+    get_expenses_by_category
 )
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 
@@ -11,8 +12,12 @@ main_bp = Blueprint("main", __name__)
 
 @main_bp.route("/")
 def home():
-    
-    expenses = get_all_expenses()
+    category = request.args.get("category")
+
+    if category:
+        expenses = get_expenses_by_category(category)
+    else:
+        expenses = get_all_expenses()
 
     return render_template(
         "index.html",
