@@ -19,7 +19,16 @@
 
     <div class="mb-3">
         <label class="form-label">Category</label>
-        <input type="text" name="category" value="{{ expense.category }}" class="form-control" required>
+        <select name="category" class="form-control" required>
+            <option value="">Select a category</option>
+            <option value="Food" {% if expense.category=="Food" %}selected{% endif %}>Food</option>
+            <option value="Transport" {% if expense.category=="Transport" %}selected{% endif %}>Transport</option>
+            <option value="Shopping" {% if expense.category=="Shopping" %}selected{% endif %}>Shopping</option>
+            <option value="Bills" {% if expense.category=="Bills" %}selected{% endif %}>Bills</option>
+            <option value="Entertainment" {% if expense.category=="Entertainment" %}selected{% endif %}>Entertainment
+            </option>
+            <option value="Other" {% if expense.category=="Other" %}selected{% endif %}>Other</option>
+        </select>
     </div>
 
     <button class="btn btn-primary">
