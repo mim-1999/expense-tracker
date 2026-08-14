@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from app.controllers.main_controller import main_bp
 from app.extensions import db
 from app.models.expense import Expense
@@ -17,5 +17,9 @@ def create_app():
         db.create_all()
 
     app.register_blueprint(main_bp)
+
+    @app.errorhandler(404)
+    def page_not_found(error):
+        return render_template("404.html"), 404
 
     return app
