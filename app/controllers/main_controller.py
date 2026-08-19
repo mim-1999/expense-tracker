@@ -4,7 +4,9 @@ from app.services.expense_service import (
     delete_expense,
     update_expense,
     get_expense,
-    get_expenses_by_category
+    get_expenses_by_category,
+    search_expenses,
+    filter_expenses
 )
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 
@@ -12,12 +14,15 @@ main_bp = Blueprint("main", __name__)
 
 @main_bp.route("/")
 def home():
+    search = request.args.get("search")
     category = request.args.get("category")
+    sort = request.args.get("sort")
 
-    if category:
-        expenses = get_expenses_by_category(category)
-    else:
-        expenses = get_all_expenses()
+    expenses = filter_expenses(
+    search=search,
+    category=category,
+    sort=sort
+)
 
     return render_template(
         "index.html",

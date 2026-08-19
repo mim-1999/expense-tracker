@@ -14,19 +14,58 @@
 </div>
 
 <form method="GET" class="mb-3">
-    <select name="category" class="form-control">
-        <option value="">All Categories</option>
-        <option value="Food">Food</option>
-        <option value="Transport">Transport</option>
-        <option value="Shopping">Shopping</option>
-        <option value="Bills">Bills</option>
-        <option value="Entertainment">Entertainment</option>
-        <option value="Other">Other</option>
+
+    <input type="text" name="search" class="form-control" placeholder="Search expenses..."
+        value="{{ request.args.get('search', '') }}">
+
+    <select name="category" class="form-control mt-2">
+
+        <option value="" {% if not request.args.get("category") %}selected{% endif %}>
+            All Categories
+        </option>
+
+        <option value="Food" {% if request.args.get("category")=="Food" %}selected{% endif %}>
+            Food
+        </option>
+
+        <option value="Transport" {% if request.args.get("category")=="Transport" %}selected{% endif %}>
+            Transport
+        </option>
+
+        <option value="Shopping" {% if request.args.get("category")=="Shopping" %}selected{% endif %}>
+            Shopping
+        </option>
+
+        <option value="Bills" {% if request.args.get("category")=="Bills" %}selected{% endif %}>
+            Bills
+        </option>
+
+        <option value="Entertainment" {% if request.args.get("category")=="Entertainment" %}selected{% endif %}>
+            Entertainment
+        </option>
+
+        <option value="Other" {% if request.args.get("category")=="Other" %}selected{% endif %}>
+            Other
+        </option>
+
+    </select>
+
+    <select name="sort" class="form-control mt-2">
+        <option value="" {% if not request.args.get("sort") %}selected{% endif %}>Sort by</option>
+        <option value="amount_asc" {% if request.args.get("sort")=="amount_asc" %}selected{% endif %}>Amount: Low to
+            High</option>
+        <option value="amount_desc" {% if request.args.get("sort")=="amount_desc" %}selected{% endif %}>Amount: High to
+            Low</option>
     </select>
 
     <button class="btn btn-primary mt-2">
-        Filter
+        Filter / Search
     </button>
+
+    <a href="{{ url_for('main.home') }}" class="btn btn-secondary mt-2">
+        Clear Filter
+    </a>
+
 </form>
 
 <table class="table table-striped">

@@ -32,3 +32,25 @@ def update_expense(expense, title, amount, category):
 
 def get_expenses_by_category(category):
     return Expense.query.filter_by(category=category).all()
+
+def search_expenses(search):
+    return Expense.query.filter(
+        Expense.title.ilike(f"%{search}%")
+    ).all()
+
+def filter_expenses(search=None, category=None, sort=None):
+    query = Expense.query
+
+    if search:
+        query = query.filter(Expense.title.ilike(f"%{search}%"))
+
+    if category:
+        query = query.filter_by(category=category)
+
+    if sort == "amount_asc":
+        query = query.order_by(Expense.amount.asc())
+
+    elif sort == "amount_desc":
+        query = query.order_by(Expense.amount.desc())
+
+    return query.all()
